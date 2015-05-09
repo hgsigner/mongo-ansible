@@ -1,0 +1,52 @@
+---
+- name: Updates the server
+  apt: update_cache=yes
+  tags: setup
+
+- name: Upgrades the server
+  apt: upgrade=full
+  tags: setup
+
+- name: Install extra packages
+  apt: "pkg={{item}} state=latest force=yes update_cache=yes"
+  with_items:
+    - build-essential
+    - python-pip
+    - ufw
+    - ntp
+  tags: setup
+
+- name: Install the latest pymongo package
+  pip: name=pymongo state=latest use_mirrors=no 
+  tags: setup
+
+- name: Setup locale
+  copy: src=locale
+        dest=/etc/default/locale
+        force=yes
+  tags: setup
+
+- name: Configure NTP (Network Time Protocol)
+  template: >
+    src=timezone.j2
+    dest=/etc/timezone
+  notify: update tzdata
+  tags: setup
+
+- name: UFW - set default policy
+  ufw: policy=deny
+
+- name: UFW - enable logging
+  ufw: logging=on
+
+- name: UFW - allow services
+  ufw: rule=allow port={{ item }}
+  with_items:
+    - 22
+
+- name: UFW - server
+  ufw: rule=allow src=104.236.233.80 port=27017 proto=tcp
+
+- name: UFW - enabled
+  ufw: state=enabled
+

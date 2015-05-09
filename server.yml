@@ -1,0 +1,10 @@
+---
+- name: MongoDB Server
+  hosts: db
+  sudo: yes
+  user: root
+  gather_facts: False
+
+  roles:
+    - common
+    - mongodb

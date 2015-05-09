@@ -1,0 +1,32 @@
+---
+- name: MongoDB | Fetch 10Gen signing key
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+- name: MongoDB | Add 10Gen repository
+  shell: 
+    echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list 
+    creates=/etc/apt/sources.list.d/mongodb-org-3.0.list
+
+- name: MongoDB | Install latest MongoDB release 
+  apt: pkg="mongodb-org" state=present update_cache=yes
+
+- name: MongoDB | Push default configuration template
+  template:
+    src=mongod.conf.j2
+    dest=/etc/mongod.conf
+    owner=root group=root mode=0644
+  notify:
+    - mongodb-restart
+
+- name: Create User and Database
+  mongodb_user: >
+    database=aionphotos 
+    name=hugodorea 
+    password=12345
+    state=present
+  notify:
+     - mongodb-restart
+
+# Insure service is running.
+- name: MongoDB | Insure deamon is running correctly
+  service: name=mongod state=started
