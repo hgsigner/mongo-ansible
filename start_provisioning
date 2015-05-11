@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ansible-playbook -i hosts server.yml --vault-password-file ~/.vaultpassword.txt -vvvv

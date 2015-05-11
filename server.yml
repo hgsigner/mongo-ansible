@@ -4,6 +4,8 @@
   sudo: yes
   user: root
   gather_facts: False
+  vars_files: 
+    - secrets.yml
 
   roles:
     - common

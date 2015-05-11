@@ -1,2 +1,2 @@
 mongodb_nohttpinterface: "false"
-mongodb_bind_ip: "0.0.0.0"
+mongodb_bind_ip: "104.236.233.80"

@@ -14,7 +14,7 @@ logpath=/var/log/mongodb/mongod.log
 
 logappend=true
 
-bind_ip = 127.0.0.1,104.236.233.80
+bind_ip = 127.0.0.1,{{mongodb_bind_ip}}
 port = 27017
 
 # Disables write-ahead journaling

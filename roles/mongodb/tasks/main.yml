@@ -21,8 +21,9 @@
 - name: Create User and Database
   mongodb_user: >
     database=aionphotos 
-    name=hugodorea 
-    password=12345
+    name={{mongo_user}} 
+    password={{mongo_user_password}}
+    roles='readWrite,dbAdmin,userAdmin'
     state=present
   notify:
      - mongodb-restart

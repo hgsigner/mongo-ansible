@@ -40,9 +40,7 @@
   ufw: logging=on
 
 - name: UFW - allow services
-  ufw: rule=allow port={{ item }}
-  with_items:
-    - 22
+  ufw: rule=allow port=22
 
 - name: UFW - server
   ufw: rule=allow src=104.236.233.80 port=27017 proto=tcp
