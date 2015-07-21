@@ -1,0 +1,5 @@
+---
+
+#Vars for all groups
+
+mongodb_bind_ip: 0.0.0.0
